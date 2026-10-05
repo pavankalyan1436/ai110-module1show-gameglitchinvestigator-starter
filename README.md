@@ -41,35 +41,33 @@ It wrote the code, ran away, and now the game is unplayable.
   4. Started `attempts` at 0 so the player gets the full attempt limit.
   5. Made wrong guesses always cost 5 points.
   6. Made New Game reset attempts, score, status, and history, and pick the secret from the current difficulty's range. The info box now shows the real range.
+  7. `parse_guess` now rejects decimals and out-of-range numbers, and invalid input no longer uses up an attempt (Challenge 1).
 
 - **Known issue:** if you change difficulty in the middle of a game, the old secret stays until you click New Game. The Debug Info panel also shows values one step behind, because it is drawn before the submit logic runs.
 
 ## 📸 Demo Walkthrough
 
 1. Start the app on **Normal**. The info box says "Guess a number between 1 and 100. Attempts left: 8".
-2. The secret is 27 (visible in Developer Debug Info). The user guesses **80**, and the game shows "📉 Go LOWER!" and the score drops by 5.
-3. The user guesses **100**, and the game again shows "📉 Go LOWER!" (before the fix, this flipped to the opposite hint).
-4. The user guesses **10**, and the game shows "📈 Go HIGHER!" and the score drops by 5 again.
-5. The user guesses **27**, balloons appear, and the game shows "You won! The secret was 27" with the final score.
-6. The user clicks **New Game**, and attempts, score, and history reset. The user can play again.
+2. The secret is 27 (visible in Developer Debug Info). The user types **4.9**, and the game shows "Please enter a whole number." Attempts left stays at 8.
+3. The user guesses **80**, and the game shows "📉 Go LOWER!" and the score drops by 5.
+4. The user guesses **100**, and the game again shows "📉 Go LOWER!" (before the fix, this flipped to the opposite hint).
+5. The user guesses **10**, and the game shows "📈 Go HIGHER!" and the score drops by 5 again.
+6. The user guesses **27**, balloons appear, and the game shows "You won! The secret was 27" with the final score.
+7. The user clicks **New Game**, and attempts, score, and history reset. The user can play again.
 
 ## 🧪 Test Results
 
 ```
 $ python -m pytest -v
-collected 7 items
+collected 10 items
 
-tests/test_game_logic.py::test_winning_guess PASSED                         [ 14%]
-tests/test_game_logic.py::test_guess_too_high PASSED                        [ 28%]
-tests/test_game_logic.py::test_guess_too_low PASSED                         [ 42%]
-tests/test_game_logic.py::test_too_high_hint_says_lower PASSED              [ 57%]
-tests/test_game_logic.py::test_too_low_hint_says_higher PASSED              [ 71%]
-tests/test_game_logic.py::test_three_digit_guess_vs_two_digit_secret PASSED [ 85%]
-tests/test_game_logic.py::test_one_digit_guess_vs_two_digit_secret PASSED   [100%]
-
-============================== 7 passed in 0.01s ==============================
-```
-
-## 🚀 Stretch Features
-
-- [ ] No stretch challenges completed yet.
+tests/test_game_logic.py::test_winning_guess PASSED                           [ 10%]
+tests/test_game_logic.py::test_guess_too_high PASSED                          [ 20%]
+tests/test_game_logic.py::test_guess_too_low PASSED                           [ 30%]
+tests/test_game_logic.py::test_too_high_hint_says_lower PASSED                [ 40%]
+tests/test_game_logic.py::test_too_low_hint_says_higher PASSED                [ 50%]
+tests/test_game_logic.py::test_three_digit_guess_vs_two_digit_secret PASSED   [ 60%]
+tests/test_game_logic.py::test_one_digit_guess_vs_two_digit_secret PASSED     [ 70%]
+tests/test_game_logic.py::test_parse_guess_strips_extra_spaces PASSED         [ 80%]
+tests/test_game_logic.py::test_parse_guess_rejects_decimal PASSED             [ 90%]
+tests/test_game_logic.py::test_parse_guess_rejects_negative
