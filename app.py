@@ -38,8 +38,8 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    # FIXME: attempts starts at 1, so the player loses one guess
-    st.session_state.attempts = 1
+    # FIX: Start at 0 so the player gets the full attempt limit.
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -100,14 +100,9 @@ if submit:
         st.error(err)
     else:
         st.session_state.history.append(guess_int)
-         # FIXME: secret becomes a string on even attempts -> alphabetical compare
-
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
-
-        outcome = check_guess(guess_int, secret)
+        # FIX: Always compare against the int secret (it used to become a
+        # string on even attempts, causing alphabetical comparisons).
+        outcome = check_guess(guess_int, st.session_state.secret)
 
         if show_hint:
             st.warning(get_hint_message(outcome))

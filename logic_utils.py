@@ -38,21 +38,12 @@ def check_guess(guess, secret):
 
     outcome: "Win", "Too High", or "Too Low"
     """
+    # FIX: Removed the TypeError/string fallback; guess and secret are always ints now.
     if guess == secret:
         return "Win"
-
-    try:
-        if guess > secret:
-            return "Too High"
-        else:
-            return "Too Low"
-    except TypeError:
-        g = str(guess)
-        if g == secret:
-            return "Win"
-        if g > secret:
-            return "Too High"
-        return "Too Low"
+    if guess > secret:
+        return "Too High"
+    return "Too Low"
 
 # FIX: Hint messages were swapped in app.py. Moved logic here with AI help and
 # split hint text into its own function so "Too High" now says "Go LOWER".
