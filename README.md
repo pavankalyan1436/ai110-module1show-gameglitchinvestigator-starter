@@ -70,4 +70,11 @@ tests/test_game_logic.py::test_three_digit_guess_vs_two_digit_secret PASSED   [ 
 tests/test_game_logic.py::test_one_digit_guess_vs_two_digit_secret PASSED     [ 70%]
 tests/test_game_logic.py::test_parse_guess_strips_extra_spaces PASSED         [ 80%]
 tests/test_game_logic.py::test_parse_guess_rejects_decimal PASSED             [ 90%]
-tests/test_game_logic.py::test_parse_guess_rejects_negative
+tests/test_game_logic.py::test_parse_guess_rejects_negative PASSED            [100%]
+
+============================== 10 passed ==============================
+```
+
+## 🚀 Stretch Features
+
+- [x] **Challenge 1: Advanced Edge-Case Testing.** Added tests for extra spaces, decimals, and out-of-range numbers. Fixed `parse_guess` in `logic_utils.py` to reject decimals and numbers outside the difficulty's range, and changed `app.py` so invalid input no longer uses up an attempt. Prompts and reasoning are in `ai_interactions.md`.
