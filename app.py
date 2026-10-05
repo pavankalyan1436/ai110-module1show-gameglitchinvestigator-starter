@@ -96,14 +96,15 @@ if st.session_state.status != "playing":
     st.stop()
 
 if submit:
-    st.session_state.attempts += 1
-
-    ok, guess_int, err = parse_guess(raw_guess)
+    # FIX: Pass the range so out-of-range guesses are rejected.
+    ok, guess_int, err = parse_guess(raw_guess, low, high)
 
     if not ok:
         st.session_state.history.append(raw_guess)
         st.error(err)
     else:
+        # FIX: Only count an attempt once the guess is valid, so bad input is free.
+        st.session_state.attempts += 1
         st.session_state.history.append(guess_int)
         # FIX: Always compare against the int secret (it used to become a
         # string on even attempts, causing alphabetical comparisons).

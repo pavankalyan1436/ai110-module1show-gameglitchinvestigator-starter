@@ -1,4 +1,4 @@
-from logic_utils import check_guess, get_hint_message
+from logic_utils import check_guess, get_hint_message, parse_guess
 
 def test_winning_guess():
     # If the secret is 50 and guess is 50, it should be a win
@@ -30,3 +30,17 @@ def test_three_digit_guess_vs_two_digit_secret():
 def test_one_digit_guess_vs_two_digit_secret():
     # Guards against string comparison: "9" > "50" alphabetically said "Too High"
     assert check_guess(9, 50) == "Too Low"
+
+def test_parse_guess_strips_extra_spaces():
+    # Edge case: copy-pasted input with surrounding spaces should still parse
+    assert parse_guess("  42  ") == (True, 42, None)
+
+def test_parse_guess_rejects_decimal():
+    # Edge case: "4.9" is silently truncated to 4 instead of being rejected
+    ok, value, err = parse_guess("4.9")
+    assert ok is False
+
+def test_parse_guess_rejects_negative():
+    # Edge case: "-5" is below every difficulty's range but is accepted and costs an attempt
+    ok, value, err = parse_guess("-5", 1, 100)
+    assert ok is False
